@@ -27,7 +27,9 @@ class Command(BaseCommand):
                         server_response="Email отправлен",
                         mailing=mailing,
                     )
-                    print(f"Сообщение {mailing.message.subject} успешно отправлено на  {recipient.email}")
+                    print(
+                        f"Сообщение {mailing.message.subject}"
+                        f"успешно отправлено на  {recipient.email}")
                 except Exception as e:
                     MailingAttempt.objects.create(
                         date_attempt=timezone.now(),

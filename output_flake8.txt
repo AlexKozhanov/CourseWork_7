@@ -1,0 +1,5 @@
+[1m.\mailing\views.py[m[36m:[m6[36m:[m101[36m:[m [1m[31mE501[m line too long (103 > 100 characters)
+[1m.\mailing\views.py[m[36m:[m30[36m:[m101[36m:[m [1m[31mE501[m line too long (104 > 100 characters)
+[1m.\mailing\views.py[m[36m:[m62[36m:[m101[36m:[m [1m[31mE501[m line too long (110 > 100 characters)
+[1m.\mailing\views.py[m[36m:[m129[36m:[m101[36m:[m [1m[31mE501[m line too long (110 > 100 characters)
+[1m.\users\views.py[m[36m:[m59[36m:[m101[36m:[m [1m[31mE501[m line too long (107 > 100 characters)
