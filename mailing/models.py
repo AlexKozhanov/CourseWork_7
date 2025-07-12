@@ -6,6 +6,9 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class RecipientMailing(models.Model):
+    """
+    Модель получателя рассылки.
+    """
     email = models.EmailField(
         max_length=255,
         unique=True,
@@ -39,6 +42,9 @@ class RecipientMailing(models.Model):
 
 
 class Message(models.Model):
+    """
+    Модель сообщения.
+    """
     subject = models.CharField(
         max_length=255,
         verbose_name="Тема сообщения")
@@ -60,6 +66,9 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
+    """
+    Модель рассылки.
+    """
     CREATED = "Создана"
     LAUNCHED = "Запущена"
     COMPLETED = "Завершена"
@@ -111,7 +120,9 @@ class Mailing(models.Model):
 
 
 class MailingAttempt(models.Model):
-    """Попытка рассылки"""
+    """
+    Модель попытки рассылки.
+    """
 
     STATUS_OK = "Успешно"
     STATUS_NOK = "Не успешно"

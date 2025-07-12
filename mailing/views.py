@@ -1,12 +1,28 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin
+)
 from django.core.exceptions import PermissionDenied
-
 from django.urls import reverse_lazy
-
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
-
-from mailing.forms import MailingForm, MessageForm, RecipientForm
-from mailing.models import Mailing, MailingAttempt, Message, RecipientMailing
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView
+)
+from mailing.forms import (
+    MailingForm,
+    MessageForm,
+    RecipientForm
+)
+from mailing.models import (
+    Mailing,
+    MailingAttempt,
+    Message,
+    RecipientMailing
+)
 
 
 class IndexView(TemplateView):

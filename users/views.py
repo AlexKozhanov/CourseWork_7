@@ -1,7 +1,6 @@
 import secrets
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
@@ -13,18 +12,21 @@ from django.views.generic import (
     FormView,
     ListView,
     TemplateView,
-    UpdateView)
-
+    UpdateView
+)
 from config.settings import EMAIL_HOST_USER
 from users.forms import (
     PasswordRecoveryForm,
-    UserLoginForm,
     UserRegistrationForm,
-    UserUpdateForm)
+    UserUpdateForm
+)
 from users.models import User
 
 
 class UserCreateView(CreateView):
+    """
+    Модель создания пользователя.
+    """
     model = User
     form_class = UserRegistrationForm
     success_url = reverse_lazy("users:email_confirmation")
@@ -46,12 +48,10 @@ class UserCreateView(CreateView):
         return super().form_valid(form)
 
 
-class UserLoginView(LoginView):
-    model = User
-    form_class = UserLoginForm
-
-
 class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    """
+    Модель просмотра пользователя.
+    """
     model = User
     template_name = "users/user_list.html"
 
@@ -60,6 +60,9 @@ class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
+    """
+    Модель удаления пользователя.
+    """
     model = User
     form_class = UserUpdateForm
 

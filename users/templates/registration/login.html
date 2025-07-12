@@ -1,6 +1,7 @@
 {% extends 'mailing/base.html' %}
-{% block content %}
+{% block title %}Login{% endblock %}
 
+{% block content %}
 <div class="container mt-5">
     <div class="row">
         <div class="col-6">
@@ -13,18 +14,13 @@
                     <button type="submit" class="btn btn-primary">
                         Войти
                     </button>
-
                     <a class="btn btn-primary mt-1" href="{% url 'mailing:message_list' %}" role="button">Отмена</a>
-
                     <div class="card-footer">
                         <a href="{% url 'users:password_recovery' %}">Забыли пароль?</a>
                     </div>
-
                 </div>
-
             </form>
         </div>
     </div>
-
 </div>
 {% endblock %}

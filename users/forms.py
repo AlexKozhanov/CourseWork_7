@@ -8,6 +8,9 @@ from users.models import User
 
 
 class UserRegistrationForm(StyleFormMixin, UserCreationForm):
+    """
+    Модель регистрация пользователя.
+    """
     class Meta:
         model = User
         template_name = "users/user_form.html"
@@ -24,6 +27,9 @@ class UserRegistrationForm(StyleFormMixin, UserCreationForm):
 
 
 class UserForm(StyleFormMixin, UserChangeForm):
+    """
+    Модель форма пользователя.
+    """
     class Meta:
         model = User
         fields = (
@@ -45,6 +51,9 @@ class UserForm(StyleFormMixin, UserChangeForm):
 
 
 class UserUpdateForm(StyleFormMixin, ModelForm):
+    """
+    Модель изменение пользователя.
+    """
     class Meta:
         model = User
         fields = (
@@ -79,6 +88,9 @@ class UserUpdateForm(StyleFormMixin, ModelForm):
 
 
 class PasswordRecoveryForm(StyleFormMixin, forms.Form):
+    """
+    Модель форма восстановления пароля.
+    """
     email = forms.EmailField(label="Укажите Email")
 
     def clean_email(self):
@@ -89,7 +101,3 @@ class PasswordRecoveryForm(StyleFormMixin, forms.Form):
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("Такого email нет в системе")
         return email
-
-
-class UserLoginForm(StyleFormMixin, AuthenticationForm):
-    model = User
