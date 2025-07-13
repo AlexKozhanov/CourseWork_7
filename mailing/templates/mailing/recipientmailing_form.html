@@ -6,6 +6,11 @@
         <div class="col-6">
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
+                    {% if object %}
+                    <h2 class="mb-4">Редактирование Получателя</h2>
+                    {% else %}
+                    <h2 class="mb-4">Создание Получателя</h2>
+                    {% endif %}
                     <div class="form-body">
                         {% csrf_token %}
                         {{ form.as_p }}

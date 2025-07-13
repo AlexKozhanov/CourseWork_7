@@ -23,7 +23,10 @@ from mailing.models import (
     Message,
     RecipientMailing
 )
-
+from mailing.services import (
+    get_attempt_from_cache,
+    get_mailing_from_cache
+)
 
 class IndexView(TemplateView):
     template_name = "mailing/index.html"
@@ -42,12 +45,14 @@ class IndexView(TemplateView):
 class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
 
+    # def get_queryset(self, *args, **kwargs):
+    #     if self.request.user.is_superuser or self.request.user.groups.filter(name="Менеджеры").exists():
+    #         return super().get_queryset()
+    #     elif self.request.user.groups.filter(name="Пользователи").exists():
+    #         return super().get_queryset().filter(owner=self.request.user)
+    #     raise PermissionDenied
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_superuser or self.request.user.groups.filter(name="Менеджеры").exists():
-            return super().get_queryset()
-        elif self.request.user.groups.filter(name="Пользователи").exists():
-            return super().get_queryset().filter(owner=self.request.user)
-        raise PermissionDenied
+        return get_mailing_from_cache()
 
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
@@ -172,10 +177,8 @@ class MessageListView(ListView):
     model = Message
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_superuser:
-            return super().get_queryset()
-        else:
-            raise PermissionDenied
+        queryset = super().get_queryset()
+        return queryset
 
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
@@ -241,8 +244,9 @@ class MailingAttemptListView(LoginRequiredMixin, ListView):
     model = MailingAttempt
 
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_superuser:
-            return super().get_queryset()
-        elif self.request.user.groups.filter(name="Пользователи").exists():
-            return super().get_queryset().filter(owner=self.request.user)
-        raise PermissionDenied
+        # if self.request.user.is_superuser:
+        #     return super().get_queryset()
+        # elif self.request.user.groups.filter(name="Пользователи").exists():
+        #     return super().get_queryset().filter(owner=self.request.user)
+        # raise PermissionDenied
+        return get_attempt_from_cache()

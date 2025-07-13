@@ -9,7 +9,6 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                     </div>
-
                     <button type="submit" class="btn btn-primary">
                         {% if not object %}
                         Зарегистрироваться
@@ -17,12 +16,7 @@
                         Сохранить
                         {% endif %}
                     </button>
-
-                    {% if user.is_superuser%}
-                        <a class="btn btn-primary mt-1" href="{% url 'users:users' %}" role="button">Отмена</a>
-                    {% else %}
-                        <a class="btn btn-primary mt-1" href="{% url 'mailing:index' %}" role="button">Отмена</a>
-                    {% endif %}
+                    <a class="btn btn-primary mt-1" href="{% url 'users:users' %}" role="button">Отмена</a>
                 </div>
             </form>
         </div>

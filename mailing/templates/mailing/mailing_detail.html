@@ -2,18 +2,19 @@
 {% block content %}
 <div class="container marketing mt-5">
     <div class="row">
-
+        <h2 class="mb-4">Описание Рассылки</h2>
         <div class="col-lg-4">
-
-            <p>Первая отправка {{object.first_sending }}<p>
-            <p>Окончание отправки {{object.end_sending }}<p>
-            <p>Статус {{object.status}}<p>
-            <p>Статус {{object.is_active}}<p>
-            <p>Статус {{object.owner}}<p>
-            <p>Сообщение {{object.message}}</p>
+            <p>Первая отправка: {{object.first_sending }}</p>
+            <p>Окончание отправки: {{object.end_sending }}</p>
+            <p>Статус рассылки: {{object.status}}</p>
+            <p>Статус активности: {{object.is_active}}</p>
+            <p>Получатели:
+                <p>{% for recipients in object.recipients.all %}{{ recipients }}<p/>{% endfor %}
+            </p>
+            <p>Сообщение: {{object.message}}</p>
+            <p>Владелец: {{object.owner}}</p>
             <p><a class="btn btn-secondary" href="{% url 'mailing:mailing_list' %}">Назад</a></p>
         </div><!-- /.col-lg-4 -->
-
     </div><!-- /.row -->
 </div><!-- /.container -->
 {% endblock %}}

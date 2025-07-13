@@ -7,29 +7,16 @@
             <form class="row" method="post" enctype="multipart/form-data">
                 <div class="card">
                     {% if object %}
-                    <h1 class="mb-4">Редактирование Сообщения</h1>
+                    <h2 class="mb-4">Редактирование Сообщения</h2>
                     {% else %}
-                    <h1 class="mb-4">Создание Сообщения</h1>
+                    <h2 class="mb-4">Создание Сообщения</h2>
                     {% endif %}
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <a href="{% url 'mailing:message_list' %}">Отмена</a>
+                        <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+                        <a class="btn btn-primary mb-2" href="{% url 'mailing:message_list' %}" role="button">Отмена</a>
                     </form>
-<!--                    <div class="form-body">-->
-<!--                        {% csrf_token %}-->
-<!--                        {{ form.as_p }}-->
-<!--                    </div>-->
-<!--                    <button type="submit" class="btn btn-primary">-->
-<!--                        {% if object %}-->
-<!--                        Сохранить-->
-<!--                        {% else %}-->
-<!--                        Создать-->
-<!--                        {% endif %}-->
-<!--                    </button>-->
-<!--                    <a class="btn btn-primary mt-1" href="{% url 'mailing:message_list' %}" role="button">Отмена</a>-->
-
                 </div>
             </form>
         </div>
