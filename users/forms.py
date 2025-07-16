@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.forms import ModelForm
 from django.urls import reverse_lazy
 
@@ -63,9 +63,9 @@ class UserUpdateForm(StyleFormMixin, ModelForm):
             "password",
             "phone_number",
             "country",
-            "is_active",
-            "is_superuser",
-            "is_staff",
+            # "is_active",
+            # "is_superuser",
+            # "is_staff",
             "avatar",
         )
         success_url = reverse_lazy("users:users")

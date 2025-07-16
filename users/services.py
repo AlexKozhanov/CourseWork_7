@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -13,7 +13,8 @@ def email_verification(request, token):
     return HttpResponseRedirect(reverse("users:login"))
 
 
-@permission_required("users.view_user")
+# @permission_required("users.view_user")
+@login_required
 def block_user(self, pk):
     user = User.objects.get(pk=pk)
     user.is_active = {user.is_active: False, not user.is_active: True}[True]

@@ -15,7 +15,9 @@ from django.views.generic import (
 from mailing.forms import (
     MailingForm,
     MessageForm,
-    RecipientForm
+    RecipientForm,
+    RecipientModeratorForm,
+    MailingModeratorForm
 )
 from mailing.models import (
     Mailing,
@@ -27,6 +29,7 @@ from mailing.services import (
     get_attempt_from_cache,
     get_mailing_from_cache
 )
+
 
 class IndexView(TemplateView):
     template_name = "mailing/index.html"
@@ -46,7 +49,8 @@ class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
 
     # def get_queryset(self, *args, **kwargs):
-    #     if self.request.user.is_superuser or self.request.user.groups.filter(name="Менеджеры").exists():
+    #     if (self.request.user.is_superuser or
+    #     self.request.user.groups.filter(name="Менеджеры").exists()):
     #         return super().get_queryset()
     #     elif self.request.user.groups.filter(name="Пользователи").exists():
     #         return super().get_queryset().filter(owner=self.request.user)
@@ -87,12 +91,24 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
     form_class = MailingForm
     success_url = reverse_lazy("mailing:mailing_list")
+    # permission_required = 'mailing.can_disable_mailing'
 
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        if self.object.owner != self.request.user and not self.request.user.is_superuser:
-            raise PermissionDenied
-        return self.object
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset)
+    #     if self.object.owner != self.request.user and not self.request.user.is_superuser:
+    #         raise PermissionDenied
+    #     return self.object
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm('mailing.can_blocking_client'):
+            return MailingModeratorForm
+        return MailingForm
+        # if user == self.object.owner:
+        #     return MailingForm
+        # if user.has_perm('mailing.can_disable_mailing'):
+        #     return MailingModeratorForm
+        # raise PermissionDenied
 
 
 class MailingDeleteView(LoginRequiredMixin, DeleteView):
@@ -155,11 +171,17 @@ class RecipientMailingUpdateView(LoginRequiredMixin, UpdateView):
     form_class = RecipientForm
     success_url = reverse_lazy("mailing:recipientmailing_list")
 
-    def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        if self.object.owner != self.request.user and not self.request.user.is_superuser:
-            raise PermissionDenied
-        return self.object
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset)
+    #     if self.object.owner != self.request.user and not self.request.user.is_superuser:
+    #         raise PermissionDenied
+    #     return self.object
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm('mailing.can_blocking_client'):
+            return RecipientModeratorForm
+        return RecipientForm
 
 
 class RecipientMailingDeleteView(LoginRequiredMixin, DeleteView):

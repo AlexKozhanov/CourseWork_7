@@ -36,6 +36,9 @@
                                aria-expanded="false">Пользователь</a>
                             <ul class="dropdown-menu">
                                 {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'users:detail' user.pk%}">Профиль</a>
+                                </li>
                                 <li  class="nav-item">
                                     <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                         {% csrf_token %}
@@ -43,9 +46,6 @@
                                     </form>
                                 </li>
                                 {% if user.is_superuser or user|in_group:"Менеджеры"%}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'users:detail' user.pk%}">Профиль</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'users:users' %}">Список пользователей</a>
                                 </li>

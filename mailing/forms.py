@@ -20,10 +20,26 @@ class MailingForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mailing
         fields = "__all__"
+        exclude = ("can_disable_mailing", "owner")
+        success_url = reverse_lazy("mailing:mailing_list")
+
+
+class MailingModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Mailing
+        fields = "__all__"
         success_url = reverse_lazy("mailing:mailing_list")
 
 
 class RecipientForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = RecipientMailing
+        fields = "__all__"
+        exclude = ("can_blocking_client", "owner")
+        success_url = reverse_lazy("mailing:recipientmailing_list")
+
+
+class RecipientModeratorForm(StyleFormMixin, ModelForm):
     class Meta:
         model = RecipientMailing
         fields = "__all__"

@@ -39,6 +39,9 @@ class RecipientMailing(models.Model):
         verbose_name = "Получатель рассылки"
         verbose_name_plural = "Получатели рассылки"
         ordering = ["fio"]
+        permissions = [
+            ("can_blocking_client", "Может блокировать получателя"),
+        ]
 
 
 class Message(models.Model):
@@ -63,6 +66,9 @@ class Message(models.Model):
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
         ordering = ["subject"]
+        permissions = [
+            ('can_blocking_sms', 'Может блокировать сообщение'),
+        ]
 
 
 class Mailing(models.Model):

@@ -1,5 +1,5 @@
 import secrets
-
+from django.contrib.auth.models import Group
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
@@ -38,6 +38,10 @@ class UserCreateView(CreateView):
         host = self.request.get_host()
         url = f"http://{host}/users/email-confirm/{token}/"
         user.token = token
+
+        users_group = Group.objects.get(name='Пользователи')
+        user.groups.add(users_group)
+
         user.save()
         send_mail(
             subject="Подтверждение почты",
@@ -61,14 +65,14 @@ class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     """
-    Модель удаления пользователя.
+    Модель Детального просмотра пользователя.
     """
     model = User
     form_class = UserUpdateForm
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.request.user.is_superuser:
+        if self.request.user.is_superuser or self.object.email == self.request.user.email:
             return self.object
         raise PermissionDenied
 
@@ -85,9 +89,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if not self.request.user.is_superuser:
-            raise PermissionDenied
-        return self.object
+        if self.request.user.is_superuser or self.object.email == self.request.user.email:
+            return self.object
+        raise PermissionDenied
+
+        # if not self.request.user.is_superuser:
+        #     raise PermissionDenied
+        # elif self.object.email == self.request.user.email:
+        #     return self.object
+        # return self.object
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
@@ -101,9 +111,13 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if not self.request.user.is_superuser:
-            raise PermissionDenied
-        return self.object
+        if self.request.user.is_superuser or self.object.email == self.request.user.email:
+            return self.object
+        raise PermissionDenied
+
+        # if not self.request.user.is_superuser:
+        #     raise PermissionDenied
+        # return self.object
 
 
 class EmailConfirmationView(TemplateView):
