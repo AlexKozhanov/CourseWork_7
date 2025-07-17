@@ -124,6 +124,7 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
 
 class RecipientMailingListView(ListView):
     model = RecipientMailing
+    template_name = 'mailing/recipientmailing_list.html'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -135,7 +136,7 @@ class RecipientMailingListView(ListView):
             return super().get_queryset()
         elif self.request.user.groups.filter(name="Пользователи"):
             return super().get_queryset().filter(owner=self.request.user)
-        raise PermissionDenied
+        # raise PermissionDenied
 
 
 class RecipientMailingDetailView(LoginRequiredMixin, DetailView):
@@ -264,6 +265,19 @@ class MailingAttemptCreateView(LoginRequiredMixin, CreateView):
 
 class MailingAttemptListView(LoginRequiredMixin, ListView):
     model = MailingAttempt
+
+    def get_queryset(self, *args, **kwargs):
+        # if self.request.user.is_superuser:
+        #     return super().get_queryset()
+        # elif self.request.user.groups.filter(name="Пользователи").exists():
+        #     return super().get_queryset().filter(owner=self.request.user)
+        # raise PermissionDenied
+        return get_attempt_from_cache()
+
+
+class MailingAttemptMyListView(LoginRequiredMixin, ListView):
+    model = MailingAttempt
+    template_name = 'mailing/mailingattemptmy_list.html'
 
     def get_queryset(self, *args, **kwargs):
         # if self.request.user.is_superuser:

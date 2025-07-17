@@ -39,6 +39,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'users:detail' user.pk%}">Профиль</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'mailing:attemptmy' %}">Личная статистика</a>
+                                </li>
                                 <li  class="nav-item">
                                     <form method="post" action="{% url 'users:logout' %}" style="display: inline">
                                         {% csrf_token %}
@@ -57,7 +60,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
                                 </li>
-                                {%endif%}
+                                {% endif %}
                             </ul>
                         </li>
                     </ul>
